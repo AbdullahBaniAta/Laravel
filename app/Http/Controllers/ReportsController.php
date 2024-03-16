@@ -11,7 +11,6 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin');
         $this->service = new ReportsService();
     }
 
