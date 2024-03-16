@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
-            if (auth()->user()->hasRole('admin')) {
+            if (auth()->user()) {
                 return redirect()->intended('/charts')->with('success');
             } else {
                 return redirect()->intended('/zain-report')->with('success');
