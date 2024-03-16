@@ -29,6 +29,11 @@ Route::group(['prefix' => 'zain-report', 'as' => 'report.'], function () {
     Route::get('fetch', [App\Http\Controllers\ReportController::class, 'report'])->name('fetch-report-data');
 });
 
+Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
+    Route::get('pos-statement', [App\Http\Controllers\ReportsController::class, 'viewPosStatement'])->name('pos-statement-view');
+    Route::post('pos-statement', [App\Http\Controllers\ReportsController::class, 'downloadPosStatement'])->name('pos-statement-download');
+});
+
 Route::get('/test', function () {
     return \App\Services\ChartService::getIsTargetAchieved();
 });
