@@ -65,7 +65,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Reports</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="./dashboard.html">
+                    <a class="nav-link text-white {{ request()->routeIs('reports.pos-statement-view') ? 'active' : '' }}" href="{{route('reports.pos-statement-view')}}">
                         <span class="nav-link-text ms-1">POS Statements </span>
                     </a>
                 </li>
@@ -101,7 +101,7 @@
                 </li> -->
 
 
-                
+
 
 
                 <li class="nav-item"><a class="nav-link text-white" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -142,7 +142,7 @@
     </main>
 
 
-    
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!--   Core JS Files   -->
@@ -166,7 +166,7 @@
 
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('js/material-dashboard.min.js?v=3.1.0') }}"></script>
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

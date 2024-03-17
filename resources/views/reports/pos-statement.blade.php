@@ -1,5 +1,9 @@
 @extends('layout.index')
+@section('title')
+    POS Statement
+@endsection
 @section('content')
+    <h1>POS Statement</h1>
     @error('date_from')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror
@@ -71,7 +75,7 @@
 @endsection
 
 @push('scripts')
-    
+
     <script src="{{ asset('js/common/common.js') }}"></script>
     <script src="{{ asset('js/reports/pos-statement.js') }}"></script>
 
