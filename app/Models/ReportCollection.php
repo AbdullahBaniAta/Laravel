@@ -141,7 +141,7 @@ class ReportCollection extends Model
         return $this->belongsTo(ChannelTarget::class, 'Channel_Type', 'channel_type');
     }
 
-    public static function prepareFilteredQuery($data) : Builder
+    public static function  prepareFilteredQuery($data) : Builder
     {
         $query = ReportCollection::select('category', 'brand', 'channel_type', 'Rep_id', 'rep_name', 'CustomersName', 'DateTime', 'End_User_Price', 'Company_Price', 'Cost');
         foreach ($data as $key => $value) {
@@ -166,6 +166,36 @@ class ReportCollection extends Model
         $query->orderBy('DateTime', 'asc');
         return $query;
     }
+
+    public static function  prepareBalanceRequestFilteredQuery($data) : Builder
+    {
+        
+        $query = ReportCollection::select('category', 'brand', 'channel_type', 'Rep_id', 'rep_name', 'CustomersName', 'DateTime', 'End_User_Price', 'Company_Price', 'Cost','account_number','account_name');
+        foreach ($data as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
+            switch ($key) {
+                case 'rep_id':
+                case 'cus_name':
+                case 'account_number':
+                case 'account_name':
+                    $col = $key == 'rep_id' ? 'Rep_id' : 'CustomersName';
+                    $query->whereRaw('LOWER(' . $col . ') like ?', '%' . strtolower($value) . '%');
+                    break;
+                case 'date_from':
+                case 'date_to':
+                    $op = $key == 'date_from' ? '>=' : '<=';
+                    $query->where('DateTime', $op, $value);
+                    break;
+                default:
+                    $query->where($key, $value);
+            }
+        }
+        $query->orderBy('DateTime', 'asc');
+        return $query;
+    }
+
 
 }
 

@@ -3,7 +3,9 @@
     POS Statement
 @endsection
 @section('content')
-    <h1>POS Statement</h1>
+@section('reportname')
+POS Statement
+@endsection
     @error('date_from')
         <div class="alert alert-danger">{{ $message }}</div>
     @enderror

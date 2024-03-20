@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ReportCollection;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ReportsService
@@ -61,6 +62,40 @@ class ReportsService
         }
 
         $fileName = 'pos-statement-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        return response()->streamDownload(function () use ($query) {
+            $handle = fopen('php://output', 'w');
+            $data  = $query->get();
+            if (!empty($data->first())) {
+                fputcsv($handle, array_keys($data->first()->getAttributes()));
+            }
+            $data->each(function ($row) use ($handle) {
+                fputcsv($handle, $row->getAttributes());
+            });
+            fclose($handle);
+        }, $fileName, $headers);
+    }
+    public function downloadBalanceRequest(Request $request)
+    {
+        $data = $request->toArray();
+        $fileType = $data['file_type'] ?? 'csv';
+        $action = $data['action'] ?? null;
+        unset($data['file_type'], $data['action']);
+        if (empty($data)) {
+            response()->json();
+        }
+        [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
+
+        $query = ReportCollection::prepareBalanceRequestFilteredQuery($data);
+        if ($action == 'preview') {
+            return response()->json($query->limit(20)->get());
+        }
+
+        $fileName = 'balance-request-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',

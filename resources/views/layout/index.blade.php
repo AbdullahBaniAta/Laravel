@@ -70,8 +70,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="./dashboard.html">
-                        <span class="nav-link-text ms-1">POS Statements </span>
+                    <a class="nav-link text-white {{ request()->routeIs('reports.balance-request-view') ? 'active' : '' }}"  href="{{route('reports.balance-request-view')}}">
+                        <span class="nav-link-text ms-1">Balance Request </span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -132,7 +132,10 @@
 
 
         <div class="container-fluid py-4">
+    <h1>
+    @yield('reportname')
 
+    </h1>
     @yield('content')
 
 

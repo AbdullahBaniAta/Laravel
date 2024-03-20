@@ -34,6 +34,11 @@ Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::post('pos-statement', [App\Http\Controllers\ReportsController::class, 'downloadPosStatement'])->name('pos-statement-download');
 });
 
+Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
+    Route::get('balance-request', [App\Http\Controllers\ReportsController::class, 'viewBalanceRequest'])->name('balance-request-view');
+    Route::post('balance-request', [App\Http\Controllers\ReportsController::class, 'downloadBalanceRequest'])->name('balance-request-download');
+});
+
 Route::get('/test', function () {
     return \App\Services\ChartService::getIsTargetAchieved();
 });
