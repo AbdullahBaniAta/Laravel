@@ -54,10 +54,23 @@ function showHideFilter() {
         document.getElementById(reports[window.request_data.report]+'-filter').style.display = 'block';
 }
 
-function buildDateRangePicker() {
+function buildDateRangePicker(isMonthPicker = false) {
+    let dateFormat = 'Y-m-d';
+    let plugins = [];
+
+    if (isMonthPicker) {
+        dateFormat = 'Y-m';
+        plugins = [
+            new monthSelectPlugin({
+                shorthand: true,
+                // theme: "dark"
+            })
+        ];
+    }
     flatpickr("#date", {
         mode: 'range',
-        dateFormat: 'Y-m-d',
+        dateFormat: dateFormat,
+        plugins: plugins,
         onClose: async function (selectedDates) {
             const startDate = selectedDates[0]?.toISOString();
             const endDate = selectedDates.length === 2 ? selectedDates[1]?.toISOString() : startDate;

@@ -33,12 +33,12 @@ function fillData() {
 
 function getPreviewData(url, csrfToken) {
     const formData = new FormData();
-    formData.append('rep_id', $('#rep_id').val());
-    formData.append('rep_name', $('#rep_name').val());
-    formData.append('category', $('#category').val());
-    formData.append('brand', $('#brand').val());
-    formData.append('channel_type', $('#channel_type').val());
-    formData.append('cus_name', $('#cus-name').val());
+    formData.append('representativeID', $('#representativeID').val());
+    formData.append('representative', $('#representative').val());
+    formData.append('Category', $('#Category').val());
+    formData.append('Brand', $('#Brand').val());
+    formData.append('Channel_Type', $('#Channel_Type').val());
+    formData.append('CustomersName', $('#CustomersName').val());
     formData.append('date_from', $('#date_from').val());
     formData.append('date_to', $('#date_to').val());
     formData.append('action', 'preview');
@@ -57,10 +57,10 @@ function buildTable(data) {
     let previewTable = $('#preview-table');
     if(data.length>0) {
         let table = '<table class="table table-striped mt-4">';
-        table += '<thead><tr><th>Rep ID</th><th>Rep Name</th><th>Category</th><th>Brand</th><th>Channel Type</th><th>Customer Name</th><th>Date</th></tr></thead>';
+        table += '<thead><tr><th>representativeID</th><th>representative</th><th>Category</th><th>Brand</th><th>Channel_Type</th><th>CustomersName</th><th>Date</th></tr></thead>';
         table += '<tbody>';
         data.forEach(row => {
-            table += `<tr><td>${row.rep_id}</td><td>${row.rep_name}</td><td>${row.category}</td><td>${row.brand}</td><td>${row.channel_type}</td><td>${row.CustomersName}</td><td>${row.DateTime}</td></tr>`;
+            table += `<tr><td class="text-center">${row.representativeID}</td><td class="text-center">${row.representative}</td><td class="text-center">${row.Category}</td><td class="text-center">${row.Brand}</td><td class="text-center">${row.Channel_Type}</td><td class="text-center">${row.CustomersName}</td><td class="text-center">${row.DateTime}</td></tr>`;
         });
         table += '</tbody></table>';
         previewTable.html(table);

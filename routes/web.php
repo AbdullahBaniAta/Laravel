@@ -40,5 +40,6 @@ Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
 });
 
 Route::get('/test', function () {
-    return \App\Services\ChartService::getIsTargetAchieved();
+    $x = new \App\Services\ChartService();
+    $x->posStatementCharts();
 });

@@ -14,9 +14,10 @@ class ChartsController extends Controller
         // $this->middleware('role:admin');
     }
 
+
     public function index()
     {
-        return view('charts.index', config('charts'));
+        return view('charts.index-new', config('charts'));
     }
 
     public function fetchChartData(Request $request)

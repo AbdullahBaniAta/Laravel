@@ -169,7 +169,7 @@ class ReportCollection extends Model
 
     public static function  prepareBalanceRequestFilteredQuery($data) : Builder
     {
-        
+
         $query = ReportCollection::select('category', 'brand', 'channel_type', 'Rep_id', 'rep_name', 'CustomersName', 'DateTime', 'End_User_Price', 'Company_Price', 'Cost','account_number','account_name');
         foreach ($data as $key => $value) {
             if (empty($value)) {

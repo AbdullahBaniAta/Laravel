@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\PosStatement;
 use App\Models\ReportCollection;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -28,10 +29,10 @@ class ReportsService
     public function viewPosStatement(): array
     {
         $defaultSelection = ['' => 'Select One'];
-        $repNames = ReportCollection::select('rep_name')->distinct()->pluck('rep_name')->toArray();
-        $categories = ReportCollection::select('category')->distinct()->pluck('category')->toArray();
-        $brands = ReportCollection::select('brand')->distinct()->pluck('brand')->toArray();
-        $channelTypes = ReportCollection::select('channel_type')->distinct()->pluck('channel_type')->toArray();
+        $repNames = PosStatement::select('representative')->distinct()->pluck('representative')->toArray();
+        $categories = PosStatement::select('Category')->distinct()->pluck('Category')->toArray();
+        $brands = PosStatement::select('Brand')->distinct()->pluck('Brand')->toArray();
+        $channelTypes = PosStatement::select('Channel_Type')->distinct()->pluck('Channel_Type')->toArray();
         $categories = array_combine($categories, $categories);
         $repNames = array_combine($repNames, $repNames);
         $brands = array_combine($brands, $brands);
@@ -56,7 +57,7 @@ class ReportsService
         }
         [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
 
-        $query = ReportCollection::prepareFilteredQuery($data);
+        $query = PosStatement::prepareFilteredQuery($data);
         if ($action == 'preview') {
             return response()->json($query->limit(20)->get());
         }
