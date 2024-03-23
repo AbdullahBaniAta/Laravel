@@ -75,8 +75,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="./dashboard.html">
-                        <span class="nav-link-text ms-1">POS Statements </span>
+                    <a class="nav-link text-white {{ request()->routeIs('reports.financial-transaction-view') ? 'active' : '' }}" href="{{route('reports.financial-transaction-view')}}">
+                        <span class="nav-link-text ms-1"> Financial Transaction </span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -87,7 +87,7 @@
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">
                         <a class="" href="{{route('charts.index')}}">
-                            <span class="nav-link-text ms-1">POS Statements </span>
+                            <span class="nav-link-text ms-1">Charts </span>
                         </a>
                     </h6>
                 </li>

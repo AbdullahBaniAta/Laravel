@@ -32,11 +32,10 @@ Route::group(['prefix' => 'zain-report', 'as' => 'report.'], function () {
 Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::get('pos-statement', [App\Http\Controllers\ReportsController::class, 'viewPosStatement'])->name('pos-statement-view');
     Route::post('pos-statement', [App\Http\Controllers\ReportsController::class, 'downloadPosStatement'])->name('pos-statement-download');
-});
-
-Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::get('balance-request', [App\Http\Controllers\ReportsController::class, 'viewBalanceRequest'])->name('balance-request-view');
     Route::post('balance-request', [App\Http\Controllers\ReportsController::class, 'downloadBalanceRequest'])->name('balance-request-download');
+    Route::get('financial-transaction', [App\Http\Controllers\ReportsController::class, 'viewFinancialTransactions'])->name('financial-transaction-view');
+    Route::post('financial-transaction', [App\Http\Controllers\ReportsController::class, 'downloadFinancialTransactions'])->name('financial-transaction-download');
 });
 
 Route::get('/test', function () {

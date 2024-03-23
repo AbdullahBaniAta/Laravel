@@ -2,12 +2,13 @@
 @section('title')
     POS Statement
 @endsection
-@section('content')
 @section('reportname')
-POS Statement
+    POS Statement
 @endsection
+@section('content')
+
     @error('date_from')
-        <div class="alert alert-danger">{{ $message }}</div>
+    <div class="alert alert-danger">{{ $message }}</div>
     @enderror
     <form class="row g-2" action="{{ route('reports.pos-statement-download') }}" method="post">
         @csrf
@@ -49,7 +50,8 @@ POS Statement
         </div>
         <div class="col-4">
             <label for="CustomersName" class="form-label">Customer Name</label>
-            <input type="text" class="form-control" id="CustomersName" name="CustomersName" placeholder="Al-Ahly Market Grocery">
+            <input type="text" class="form-control" id="CustomersName" name="CustomersName"
+                   placeholder="Al-Ahly Market Grocery">
         </div>
         <div class="col-4">
             <label for="date-picker" class="form-label">Date</label>
@@ -66,7 +68,10 @@ POS Statement
         </div>
         <div class="col-4"></div>
         <div class="col-4">
-            <button type="button" class="btn btn-primary" onclick="getPreviewData('{{ route('reports.pos-statement-download') }}', '{{csrf_token()}}')">Preview</button>
+            <button type="button" class="btn btn-primary"
+                    onclick="getPreviewData('{{ route('reports.pos-statement-download') }}', '{{csrf_token()}}')">
+                Preview
+            </button>
         </div>
         <div class="col-4">
             <button type="submit" name="action" value="export" class="btn btn-success">Export</button>

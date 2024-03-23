@@ -43,13 +43,16 @@ function processChartData(data) {
 
 function buildBarChart(chart_name, chartData) {
     buildChartColAndCard(chart_name, chartData.size);
+    let suggestedHeight = 50 + chartData.labels.length * 12;
+    let defaultHeight = 434;
+
     Highcharts.chart(chart_name + '-chart', {
         credits: {
             enabled: false
         },
         chart: {
             type: chartData.is_horizontal ? 'bar' : 'column',
-            height: (100 + chartData.labels.length * 25) < 400 ? 400 : (100 + chartData.labels.length * 25),
+            height: suggestedHeight < defaultHeight ? defaultHeight : suggestedHeight,
         },
         title: {
             text: chart_name,
@@ -59,6 +62,14 @@ function buildBarChart(chart_name, chartData) {
         },
         xAxis: {
             categories: chartData.labels,
+            labels: {
+                step: 1,
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'lato'
+                },
+                disabled: true,
+            },
         },
         yAxis: {
             title: {
@@ -88,8 +99,7 @@ function buildChartColAndCard(chartId, size) {
     let newDiv = document.createElement("div");
     newDiv.classList.add(size);
     newDiv.classList.add("mb-3");
-    if (chartContainer.html().trim() === '')
-        newDiv.classList.add("mt-3");
+    newDiv.classList.add("mt-3");
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
     let cardBodyDiv = document.createElement("div");
@@ -100,9 +110,7 @@ function buildChartColAndCard(chartId, size) {
     cardBodyDiv.appendChild(chartDiv);
     cardDiv.appendChild(cardBodyDiv);
     newDiv.appendChild(cardDiv);
-    // chartContainer.append('<div class="col-md-2"></div>');
     chartContainer.append(newDiv);
-    // chartContainer.append('<div class="col-md-2"></div>');
 }
 
 

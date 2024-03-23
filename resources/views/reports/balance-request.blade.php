@@ -2,11 +2,11 @@
 @section('title')
 Balance Request
 @endsection
-@section('content')
 
 @section('reportname')
-Balance Request
+    Balance Request
 @endsection
+@section('content')
 
 @error('date_from')
 <div class="alert alert-danger">{{ $message }}</div>

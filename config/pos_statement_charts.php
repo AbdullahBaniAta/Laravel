@@ -12,7 +12,7 @@ return [
         'is_horizontal' => false,
         'js_function' => 'buildBarChart',
         'size' => 'col-md-6',
-        'total_res' => true,
+//        'total_res' => true,
     ],
     [
         'cols' => [
@@ -25,8 +25,8 @@ return [
         'label' => 'Dash Sum Net Price By Brand',
         'is_horizontal' => false,
         'js_function' => 'buildBarChart',
-        'size' => 'col-md-4',
-        'total_res' => true,
+        'size' => 'col-md-6',
+//        'total_res' => true,
     ],
     [
         'cols' => [
@@ -39,8 +39,8 @@ return [
         'label' => 'Dash Sum Net Price By Sum Out',
         'is_horizontal' => true,
         'js_function' => 'buildBarChart',
-        'size' => 'col-md-10',
-        'total_res' => true,
+        'size' => 'col-md-6',
+//        'total_res' => true,
     ],
     [
         'cols' => [
@@ -53,8 +53,8 @@ return [
         'label' => 'Dash Sum Net Peice By Rep',
         'is_horizontal' => true,
         'js_function' => 'buildBarChart',
-        'size' => 'col-md-10',
-        'total_res' => true,
+        'size' => 'col-md-6',
+//        'total_res' => true,
     ],
 
 ];

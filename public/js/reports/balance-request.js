@@ -55,7 +55,6 @@ function getPreviewData(url, csrfToken) {
         }
     }).then(response => response.json())
         .then(data => {
-            console.log(data);
             buildTable(data);
         });
 }

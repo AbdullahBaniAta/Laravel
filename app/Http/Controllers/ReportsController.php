@@ -16,7 +16,7 @@ class ReportsController extends Controller
 
     public function viewPosStatement()
     {
-        
+
         return view('reports.pos-statement', [
             'dataToView' => $this->service->viewPosStatement(),
         ]);
@@ -29,7 +29,7 @@ class ReportsController extends Controller
 
     public function viewBalanceRequest()
     {
-        
+
         return view('reports.balance-request', [
             'dataToView' => $this->service->viewPosStatement(),
         ]);
@@ -40,5 +40,15 @@ class ReportsController extends Controller
         return $this->service->downloadBalanceRequest($request);
     }
 
+    public function viewFinancialTransactions()
+    {
+        return view('reports.financial-transactions', [
+            'dataToView' => $this->service->viewFinancialTransactions(),
+        ]);
+    }
 
+    public function downloadFinancialTransactions(Request $request)
+    {
+        return $this->service->downloadFinancialTransactions($request);
+    }
 }

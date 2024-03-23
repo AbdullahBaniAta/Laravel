@@ -166,7 +166,6 @@ async function exportReport() {
     await fetch(createUrlForFetch(true))
         .then(response => response.blob())
         .then(blob => {
-            console.log(blob)
             const downloadLink = document.createElement('a');
             downloadLink.href = window.URL.createObjectURL(blob);
             downloadLink.download = window.request_data.report + '.xlsx';
@@ -183,7 +182,6 @@ async function renderPagination(data) {
 
     const ul = document.createElement('ul');
     ul.classList.add('pagination');
-    console.log(data);
     for (let i = 1; i <= data.last_page; i++) {
         const li = document.createElement('li');
         li.classList.add('page-item');

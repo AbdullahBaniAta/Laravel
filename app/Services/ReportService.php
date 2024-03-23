@@ -38,7 +38,6 @@ class ReportService
             ->select(['UserID','Username','Date_Time','Balance_Before','Debit','Credit','Balance_After','Operation','Description'])
             ->whereBetween('Date_Time',$date);
 
-//        dd($query->toSql(), );
         if ($isExport) {
             $data = $query->get();
         } else {

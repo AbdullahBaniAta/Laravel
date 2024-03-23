@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\FinancialTransaction;
 use App\Models\PosStatement;
 use App\Models\ReportCollection;
 use Carbon\Carbon;
@@ -114,4 +115,56 @@ class ReportsService
             fclose($handle);
         }, $fileName, $headers);
     }
+
+    public function viewFinancialTransactions(): array
+    {
+        $defaultSelection = ['' => 'Select One'];
+        $senderNames = FinancialTransaction::select('SenderName')->distinct()->pluck('SenderName')->toArray();
+        $receiverNames = FinancialTransaction::select('ReceiveName')->distinct()->pluck('ReceiveName')->toArray();
+        $senderNames = array_combine($senderNames, $senderNames);
+        $receiverNames = array_combine($receiverNames, $receiverNames);
+
+        return [
+            'SenderName' => $defaultSelection + $senderNames,
+            'ReceiveName' => $defaultSelection + $receiverNames,
+
+        ];
+    }
+
+    public function downloadFinancialTransactions(Request $request)
+    {
+        $data = $request->toArray();
+        $fileType = $data['file_type'] ?? 'csv';
+        $action = $data['action'] ?? null;
+        unset($data['file_type'], $data['action'], $data['_token']);
+        if (empty($data)) {
+            response()->json();
+        }
+        [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
+
+        $query = FinancialTransaction::prepareFilteredQuery($data);
+        if ($action == 'preview') {
+            return response()->json($query->limit(20)->get());
+        }
+
+        $fileName = 'financial-transaction-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ];
+
+        return response()->streamDownload(function () use ($query) {
+            $handle = fopen('php://output', 'w');
+            $data  = $query->get();
+            if (!empty($data->first())) {
+                fputcsv($handle, array_keys($data->first()->getAttributes()));
+            }
+            $data->each(function ($row) use ($handle) {
+                fputcsv($handle, $row->getAttributes());
+            });
+            fclose($handle);
+        }, $fileName, $headers);
+    }
+
+
 }

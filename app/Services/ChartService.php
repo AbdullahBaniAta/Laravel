@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\helpers\DateHelper;
 use App\Models\ChannelTarget;
+use App\Models\FinancialTransaction;
 use App\Models\PosStatement;
 use App\Models\ReportCollection;
 use Carbon\Carbon;
@@ -22,10 +23,19 @@ class ChartService
 
     public function posStatementCharts(): array
     {
-        $config = config('pos_statement_charts');
+        return $this->fetchChartData('pos_statement_charts', PosStatement::class);
+    }
+    public function financialTransactionsCharts(): array
+    {
+        return $this->fetchChartData('financial-transactions-charts', FinancialTransaction::class);
+    }
+
+    private function fetchChartData($configFile, $model)
+    {
+        $config = config($configFile);
         $charts = [];
         foreach ($config as $item) {
-            $res = PosStatement::select(DB::raw($item['cols'][0]), DB::raw($item['cols'][1]))
+            $res = $model::select(DB::raw($item['cols'][0]), DB::raw($item['cols'][1]))
                 ->groupBy($item['groupBy'])
                 ->date($this->date)
                 ->orderBy($item['orderBy'], $item['orderType'])
@@ -43,8 +53,7 @@ class ChartService
 
             $charts[] = [
                 'labels' => $labels,
-                'data' => $data,
-                'colors' => [],
+                'data' => array_map('floatval', $data),
                 'js_function' => $item['js_function'],
                 'label' => $item['label'],
                 'is_horizontal' => $item['is_horizontal'] ?? false,

@@ -7,18 +7,17 @@
             <select id="chart-type" name="chart_name" class="searchable form-control">
                     <option value="">Select Type</option>
                     <option value="posStatementCharts">Pos Statement</option>
+                    <option value="financialTransactionsCharts">Financial Transactions</option>
             </select>
         </div>
-{{--        <div class="col-1"></div>--}}
         <div class="col-4">
             <label for="date-picker" class="form-label">Date</label>
             <input type="text" class="form-control" id="date-picker">
             <input type="hidden" name="date_from" id="date_from">
             <input type="hidden" name="date_to" id="date_to">
         </div>
-{{--        <div class="col-1"></div>--}}
         <div class="col-2 d-flex justify-content-center align-items-end">
-            <button id="refresh" class="btn btn-success mb-0" onclick="refreshCharts();">Refresh</button>
+            <button id="refresh" class="btn btn-success mb-0">Refresh</button>
         </div>
     </div>
 
