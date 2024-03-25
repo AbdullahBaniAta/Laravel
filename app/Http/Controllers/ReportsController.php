@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BalanceRequest;
 use App\Services\ReportsService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -29,9 +31,8 @@ class ReportsController extends Controller
 
     public function viewBalanceRequest()
     {
-
         return view('reports.balance-request', [
-            'dataToView' => $this->service->viewPosStatement(),
+            'dataToView' => $this->service->viewBalanceRequest(),
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\BalanceRequest;
 use App\Models\FinancialTransaction;
 use App\Models\PosStatement;
 use App\Models\ReportCollection;
@@ -81,18 +82,48 @@ class ReportsService
             fclose($handle);
         }, $fileName, $headers);
     }
+    public function viewBalanceRequest(): array
+    {
+        $defaultSelection = ['' => 'Select One'];
+        $customer_name =BalanceRequest::select('customers_name')->distinct()->pluck('customers_name')->toArray();
+        $customers_id =BalanceRequest::select('customers_id')->distinct()->pluck('customers_id')->toArray();
+        $account_name =BalanceRequest::select('account_name')->distinct()->pluck('account_name')->toArray();
+        $sales_representative =BalanceRequest::select('sales_representative')->distinct()->pluck('sales_representative')->toArray();
+        $status =BalanceRequest::select('status')->distinct()->pluck('status')->toArray();
+
+        // $repNames = BalanceRequest::select('representative')->distinct()->pluck('representative')->toArray();
+        // $categories = BalanceRequest::select('Category')->distinct()->pluck('Category')->toArray();
+        // $brands = BalanceRequest::select('Brand')->distinct()->pluck('Brand')->toArray();
+        // $channelTypes = BalanceRequest::select('Channel_Type')->distinct()->pluck('Channel_Type')->toArray();
+        // $categories = array_combine($categories, $categories);
+        // $repNames = array_combine($repNames, $repNames);
+        // $brands = array_combine($brands, $brands);
+        // $channelTypes = array_combine($channelTypes, $channelTypes);
+
+        return [
+               'customer_name' => $defaultSelection + array_combine($customer_name, $customer_name),
+               'account_name'=> $defaultSelection + array_combine($account_name, $account_name),
+               'sales_representative' => $defaultSelection + array_combine($sales_representative, $sales_representative),
+               'status' =>$defaultSelection + array_combine($status, $status),
+
+            // 'categories' => $defaultSelection + $categories,
+            // 'brands' => $defaultSelection + $brands,
+            // 'channel_types' => $defaultSelection + $channelTypes,
+        ];
+    }
     public function downloadBalanceRequest(Request $request)
     {
+
         $data = $request->toArray();
         $fileType = $data['file_type'] ?? 'csv';
         $action = $data['action'] ?? null;
-        unset($data['file_type'], $data['action']);
+        unset($data['file_type'], $data['action'], $data['_token']);
         if (empty($data)) {
             response()->json();
         }
         [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
 
-        $query = ReportCollection::prepareBalanceRequestFilteredQuery($data);
+        $query = BalanceRequest::prepareFilteredQuery($data);
         if ($action == 'preview') {
             return response()->json($query->limit(20)->get());
         }

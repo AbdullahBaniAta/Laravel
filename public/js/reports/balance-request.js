@@ -33,14 +33,14 @@ function fillData() {
 
 function getPreviewData(url, csrfToken) {
     const formData = new FormData();
-    formData.append('account_number', $('#account-number').val());
-    formData.append('account_name', $('#account-name').val());
-    formData.append('rep_id', $('#rep_id').val());
-    formData.append('rep_name', $('#rep_name').val());
-    formData.append('category', $('#category').val());
-    formData.append('brand', $('#brand').val());
-    formData.append('channel_type', $('#channel_type').val());
-    formData.append('cus_name', $('#cus-name').val());
+    // formData.append('account_number', $('#account-number').val());
+    // formData.append('account_name', $('#account-name').val());
+    // formData.append('rep_id', $('#rep_id').val());
+    // formData.append('rep_name', $('#rep_name').val());
+    // formData.append('category', $('#category').val());
+    // formData.append('brand', $('#brand').val());
+    // formData.append('channel_type', $('#channel_type').val());
+    // formData.append('cus_name', $('#cus-name').val());
     formData.append('date_from', $('#date_from').val());
     formData.append('date_to', $('#date_to').val());
     formData.append('action', 'preview');
@@ -50,6 +50,7 @@ function getPreviewData(url, csrfToken) {
     fetch(url, {
         method: 'POST',
         body: formData,
+
         headers: {
             'X-CSRF-TOKEN': csrfToken
         }

@@ -69,7 +69,7 @@
         <div class="col-4"></div>
         <div class="col-4">
             <button type="button" class="btn btn-primary"
-                    onclick="getPreviewData('{{ route('reports.pos-statement-download') }}', '{{csrf_token()}}')">
+                    onclick="getPreviewData(`{{ route('reports.pos-statement-download') }}`, '{{csrf_token()}}')">
                 Preview
             </button>
         </div>

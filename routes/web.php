@@ -24,10 +24,6 @@ Route::group(['prefix' => 'charts', 'as' => 'charts.'], function () {
     Route::get('fetch-chart-data', [App\Http\Controllers\ChartsController::class, 'fetchChartData'])->name('fetch-chart-data');
 });
 
-Route::group(['prefix' => 'zain-report', 'as' => 'report.'], function () {
-    Route::get('/', [App\Http\Controllers\ReportController::class, 'index'])->name('index');
-    Route::get('fetch', [App\Http\Controllers\ReportController::class, 'report'])->name('fetch-report-data');
-});
 
 Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::get('pos-statement', [App\Http\Controllers\ReportsController::class, 'viewPosStatement'])->name('pos-statement-view');
