@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="{{ asset('storage/images/favicon.png') }}">
 
     <title>
         @yield('title')
@@ -80,8 +80,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="./dashboard.html">
-                        <span class="nav-link-text ms-1">POS Statements </span>
+                    <a class="nav-link text-white {{ request()->routeIs('reports.post-summary-view') ? 'active' : '' }}" href="{{route('reports.post-summary-view')}}">
+                        <span class="nav-link-text ms-1">POS Summary </span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">

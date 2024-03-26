@@ -41,6 +41,18 @@ class ReportsController extends Controller
         return $this->service->downloadBalanceRequest($request);
     }
 
+    public function viewPOSSummary()
+    {
+        return view('reports.post-summary', [
+            'dataToView' => $this->service->viewPOSSummary(),
+        ]);
+    }
+
+    public function downloadPOSSummary(Request $request)
+    {
+        return $this->service->downloadPOSSummary($request);
+    }
+
     public function viewFinancialTransactions()
     {
         return view('reports.financial-transactions', [

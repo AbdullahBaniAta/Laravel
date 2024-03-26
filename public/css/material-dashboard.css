@@ -27188,5 +27188,8 @@ pre[class*="language-"] {
     overflow: auto !important;
   }
 }
-
+#preview-table{
+  width: 100%;
+  overflow-x: auto;
+}
 /*# sourceMappingURL=dashboard-free.css.map */

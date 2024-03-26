@@ -32,6 +32,8 @@ Route::group(['prefix' => 'reports', 'as' => 'reports.'], function () {
     Route::post('balance-request', [App\Http\Controllers\ReportsController::class, 'downloadBalanceRequest'])->name('balance-request-download');
     Route::get('financial-transaction', [App\Http\Controllers\ReportsController::class, 'viewFinancialTransactions'])->name('financial-transaction-view');
     Route::post('financial-transaction', [App\Http\Controllers\ReportsController::class, 'downloadFinancialTransactions'])->name('financial-transaction-download');
+    Route::get('pos-summary', [App\Http\Controllers\ReportsController::class, 'viewPOSSummary'])->name('post-summary-view');
+    Route::post('pos-summary', [App\Http\Controllers\ReportsController::class, 'downloadPOSSummary'])->name('pos-summary-download');
 });
 
 Route::get('/test', function () {

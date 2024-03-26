@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-
-class BalanceRequest extends Model
+class PosSummary extends Model
 {
-    protected $table = 'balance_request';
+    protected $table = 'pos_summary';
     public function scopeDate(Builder $query, $date): void
     {
-        $query->whereBetween('date_time', $date);
+        $query->whereBetween('day', $date);
     }
     public static function prepareFilteredQuery($data) : Builder
     {
@@ -22,21 +21,20 @@ class BalanceRequest extends Model
             }
             switch ($key) {
                 case 'id':
-                case 'account_number':
+                case 'pos_id':
                 case 'rep_id':
-                case 'customers_id':
-                $query->whereRaw( $key . ' like ?', '%' . strtolower($value) . '%');
+                    $query->whereRaw( $key . ' like ?', '%' . strtolower($value) . '%');
                     break;
                 case 'date_from':
                 case 'date_to':
                     $op = $key === 'date_from' ? '>=' : '<=';
-                    $query->where('date_time', $op, $value);
+                    $query->where('day', $op, $value);
                     break;
                 default:
                     $query->where($key, $value);
             }
         }
-        $query->orderBy('date_time', 'asc');
+        $query->orderBy('day', 'asc');
 
         return $query;
     }

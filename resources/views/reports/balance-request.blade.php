@@ -31,8 +31,8 @@ Balance Request
             <input type="text" class="form-control" id="customers_id" name="customers_id" placeholder="MDS0010">
         </div>
         <div class="col-md-4">
-            <label for="customer_name" class="form-label">Customer Name</label>
-            <select id="customer_name" name="customer_name" class="searchable form-control">
+            <label for="customers_name" class="form-label">Customer Name</label>
+            <select id="customers_name" name="customers_name" class="searchable form-control">
                 @foreach($dataToView['customer_name']??[] as $k => $v)
                 <option value="{{ $k }}">{{ $v }}</option>
                 @endforeach

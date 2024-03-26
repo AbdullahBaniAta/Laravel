@@ -1,5 +1,5 @@
-function buildDateRangePicker(selector, startDateInputSelector, endDateInputSelector, isMonthPicker = false, callback = null) {
-    let dateFormat = 'Y-m-d H:i'
+function buildDateRangePicker(selector, startDateInputSelector, endDateInputSelector, isMonthPicker = false, callback = null,format='Y-m-d H:i') {
+    let dateFormat = format
     let enableTime = true;
     let plugins = [];
 

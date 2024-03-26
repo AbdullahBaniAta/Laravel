@@ -8,6 +8,8 @@
                     <option value="">Select Type</option>
                     <option value="posStatementCharts">Pos Statement</option>
                     <option value="financialTransactionsCharts">Financial Transactions</option>
+                    <option value="posSummaryCharts">POS Summary</option>
+                    <option value="balanceRequestCharts">Balance Request</option>
             </select>
         </div>
         <div class="col-4">

@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\helpers\DateHelper;
+use App\Models\BalanceRequest;
 use App\Models\ChannelTarget;
 use App\Models\FinancialTransaction;
 use App\Models\PosStatement;
+use App\Models\PosSummary;
 use App\Models\ReportCollection;
 use Carbon\Carbon;
 use Facade\FlareClient\Report;
@@ -29,6 +31,15 @@ class ChartService
     {
         return $this->fetchChartData('financial-transactions-charts', FinancialTransaction::class);
     }
+    public function posSummaryCharts(): array
+    {
+        return $this->fetchChartData('pos-summary-charts', PosSummary::class);
+    }
+    public function balanceRequestCharts(): array
+    {
+        return $this->fetchChartData('balance-requests-charts', BalanceRequest::class);
+    }
+
 
     private function fetchChartData($configFile, $model)
     {

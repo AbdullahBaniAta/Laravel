@@ -91,7 +91,61 @@ function buildBarChart(chart_name, chartData) {
         },
     });
 }
+function buildPieChart(chart_name,chartData) {
+    buildChartColAndCard(chart_name, chartData.size);
+    let suggestedHeight = 50 + chartData.labels.length * 12;
+    let defaultHeight = 434;
 
+    Highcharts.chart(chart_name + '-chart', {
+        credits: {
+            enabled: false
+        },
+        chart: {
+            type: 'pie',
+            height: suggestedHeight < defaultHeight ? defaultHeight : suggestedHeight,
+        },
+        title: {
+            text: chart_name,
+            style: {
+                fontSize: '14px'
+            }
+        },
+        xAxis: {
+            categories: chartData.labels,
+            labels: {
+                step: 1,
+                style: {
+                    fontSize: '10px',
+                    fontFamily: 'lato'
+                },
+                disabled: true,
+            },
+        },
+        yAxis: {
+            title: {
+                text: 'Values',
+            },
+        },
+        plotOptions: {
+            series: {
+                colorByPoint: true,
+                colors: Highcharts.getOptions().colors.slice(0, chartData.labels.length)
+            },
+        },
+        series: [{
+            data: handlePieChartData(chartData),
+        }],
+        legend: {
+            enabled: false,
+        },
+    });
+}
+function handlePieChartData(chartData) {
+    return chartData.data.map((value, index) => ({
+        name: chartData.labels[index],
+        y: value,
+    }))
+}
 
 function buildChartColAndCard(chartId, size) {
     let chartContainer = $('#chart-container');
