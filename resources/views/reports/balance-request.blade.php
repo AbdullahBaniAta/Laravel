@@ -16,19 +16,19 @@ Balance Request
     <div class="row g-2">
         <div class="col-md-4">
             <label for="id" class="form-label"> ID </label>
-            <input type="text" class="form-control" id="id" name="id" placeholder="7634">
+            <input type="text" class="form-control" id="id" name="id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="account_number" class="form-label"> Account Number </label>
-            <input type="text" class="form-control" id="account_number" name="account_number" placeholder="62517130000203">
+            <input type="text" class="form-control" id="account_number" name="account_number" placeholder="....">
         </div>
         <div class="col-md-4">
             <label for="rep_id" class="form-label"> Rep ID </label>
-            <input type="text" class="form-control" id="rep_id" name="rep_id" placeholder="MDS0010">
+            <input type="text" class="form-control" id="rep_id" name="rep_id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="customers_id" class="form-label"> Customers ID </label>
-            <input type="text" class="form-control" id="customers_id" name="customers_id" placeholder="MDS0010">
+            <input type="text" class="form-control" id="customers_id" name="customers_id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="customers_name" class="form-label">Customer Name</label>

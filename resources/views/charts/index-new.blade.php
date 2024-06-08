@@ -1,3 +1,24 @@
+<?php
+
+$regions = [
+    '' => 'Select All',
+    'Central' => 'Central',
+    'Eastern' => 'Eastern',
+    'Northern' => 'Northern',
+    'Southern 1(Khamix Mushait)' => 'Southern 1(Khamix Mushait)',
+    'Southern 2 (Jazan)' => 'Southern 2 (Jazan)',
+    'Western 1 (Makkah)' => 'Western 1 (Makkah)',
+    'Western 1 (Yanbu)' => 'Western 1 (Yanbu)',
+];
+
+$charts = [
+    '' => 'Select Chart',
+    'posStatementCharts' => 'Pos Statement',
+    'financialTransactionsCharts' => 'Financial Transactions',
+    'posSummaryCharts' => 'POS Summary',
+    'balanceRequestCharts' => 'Balance Request',
+];
+?>
 @extends('layout.index')
 @section('content')
     <h1>Charts</h1>
@@ -5,11 +26,9 @@
         <div class="col-md-4">
             <label for="chart-type" class="form-label">Chart Type</label>
             <select id="chart-type" name="chart_name" class="searchable form-control">
-                    <option value="">Select Type</option>
-                    <option value="posStatementCharts">Pos Statement</option>
-                    <option value="financialTransactionsCharts">Financial Transactions</option>
-                    <option value="posSummaryCharts">POS Summary</option>
-                    <option value="balanceRequestCharts">Balance Request</option>
+                   @foreach($charts as $k => $v)
+                       <option value="{{ $k }}">{{ $v }}</option>
+                   @endforeach
             </select>
         </div>
         <div class="col-4">
@@ -18,14 +37,22 @@
             <input type="hidden" name="date_from" id="date_from">
             <input type="hidden" name="date_to" id="date_to">
         </div>
+        <div class="col-2">
+            <div class="rg" style="display: none;">
+                <label for="rg" class="form-label">Region</label>
+                <select id="rg" name="rg" class="searchable form-control">
+                    @foreach($regions as $k => $v)
+                        <option value="{{ $k }}">{{ $v }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <div class="col-2 d-flex justify-content-center align-items-end">
             <button id="refresh" class="btn btn-success mb-0">Refresh</button>
         </div>
     </div>
 
     <div class="row" id="chart-container">
-{{--        <div class="col-md-12" id="chart-container">--}}
-{{--        </div>--}}
     </div>
 @endsection
 @push('scripts')

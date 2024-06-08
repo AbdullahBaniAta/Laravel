@@ -70,8 +70,6 @@ function buildTable(data) {
             <th>QUANTITY</th>
             <th>Sum channel Price</th>
             <th>Sum Net Price</th>
-            <th>Sum Cost</th>
-            <th>COMPANY EARNING</th>
             <th>CUSTOMER EARNING</th>
             <th>Updated At</th>
             </tr>
@@ -94,8 +92,6 @@ function buildTable(data) {
                 <td>${row.quantity}</td>
                 <td>${row.sum_channel_price}</td>
                 <td>${row.sum_net_price}</td>
-                <td>${row.sum_cost}</td>
-                <td>${row.company_earning}</td>
                 <td>${row.customer_earning}</td>
                 <td>${row.updated_at}</td>
             </tr>`;

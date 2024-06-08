@@ -25,8 +25,9 @@ class ChartsController extends Controller
         $chartName = $request->query('chart_name');
         $dateFrom = $request->query('date_from');
         $dateTo = $request->query('date_to');
+        $rg = $request->query('rg');
 
-        $chartService = new ChartService($dateFrom, $dateTo);
+        $chartService = new ChartService($dateFrom, $dateTo, $rg);
         if ($chartName && method_exists($chartService, $chartName)) {
             $chartInfo = $chartService->$chartName([$dateFrom, $dateTo]);
 

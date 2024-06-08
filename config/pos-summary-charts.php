@@ -42,9 +42,9 @@ return [
     [
         'cols' => [
             'SUM(sum_net_price)',
-            'region'
+            'City'
         ],
-        'groupBy' => 'region',
+        'groupBy' => 'City',
         'orderBy' => 'SUM(sum_net_price)',
         'orderType' => 'desc',
         'label' => 'Sum Net Price By City',

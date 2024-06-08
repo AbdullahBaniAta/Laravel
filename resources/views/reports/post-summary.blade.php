@@ -16,15 +16,15 @@ POS Summary
     <div class="row g-2">
         <div class="col-md-4">
             <label for="id" class="form-label"> ID </label>
-            <input type="text" class="form-control" id="id" name="id" placeholder="123">
+            <input type="text" class="form-control" id="id" name="id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="pos_id" class="form-label"> POS ID </label>
-            <input type="text" class="form-control" id="pos_id" name="pos_id" placeholder="POS2003">
+            <input type="text" class="form-control" id="pos_id" name="pos_id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="rep_id" class="form-label"> REP ID </label>
-            <input type="text" class="form-control" id="rep_id" name="rep_id" placeholder="MDR0009">
+            <input type="text" class="form-control" id="rep_id" name="rep_id" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="pos_name" class="form-label">POS Name</label>

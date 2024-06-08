@@ -1,3 +1,13 @@
+<?php
+$senderTypes = [
+    '' => 'Select All',
+    'mdr' => 'Representative',
+    'mda' => 'Admin',
+    'pos' => 'POS',
+    'mds' => 'Supervisor'
+];
+    ?>
+
 @extends('layout.index')
 @section('title')
     Financial Transactions
@@ -23,7 +33,14 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <label for="SenderType" class="form-label">Sender Type</label>
+            <select id="SenderType" name="SenderType" class="searchable form-control">
+                @foreach($senderTypes as $k => $v)
+                    <option value="{{ $k }}">{{ $v }}</option>
+                @endforeach
+            </select>
+        </div>
         <div class="col-md-4">
             <label for="IDReceive" class="form-label"> Receive ID </label>
             <input type="text" class="form-control" id="IDReceive" name="IDReceive" placeholder="MDR0040">
@@ -36,7 +53,6 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-4"></div>
         <div class="col-md-4">
             <label for="date-picker" class="form-label">Date</label>
             <input type="text" class="form-control" id="date-picker">
@@ -50,6 +66,7 @@
                 <option value="xlsx">XLSX</option>
             </select>
         </div>
+        <div class="col-md-4"></div>
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <button type="button" class="btn btn-primary"

@@ -10,13 +10,15 @@ function fillData() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     if (urlParams.get('SenderID'))
-        $('#rep_id').val(urlParams.get('SenderID'));
+        $('#SenderID').val(urlParams.get('SenderID'));
     if (urlParams.get('SenderName'))
-        $('#category').val(urlParams.get('SenderName')).trigger('change');
+        $('#SenderName').val(urlParams.get('SenderName')).trigger('change');
+    if (urlParams.get('SenderType'))
+        $('#SenderType').val(urlParams.get('SenderType')).trigger('change');
     if (urlParams.get('IDReceive'))
-        $('#cus-name').val(urlParams.get('IDReceive'));
+        $('#IDReceive').val(urlParams.get('IDReceive'));
     if (urlParams.get('ReceiveName'))
-        $('#rep_name').val(urlParams.get('ReceiveName')).trigger('change');
+        $('#ReceiveName').val(urlParams.get('ReceiveName')).trigger('change');
     if (urlParams.get('file_type'))
         $('#file-type').val(urlParams.get('file_type')).trigger('change');
     if (urlParams.get('date_from') && urlParams.get('date_to')) {
@@ -31,6 +33,7 @@ function getPreviewData(url, csrfToken) {
     const formData = new FormData();
     formData.append('SenderID', $('#SenderID').val() ? $('#SenderID').val() : '');
     formData.append('SenderName', $('#SenderName').val() ? $('#SenderName').val() : '');
+    formData.append('SenderType', $('#SenderType').val() ? $('#SenderType').val() : '');
     formData.append('IDReceive', $('#IDReceive').val() ? $('#IDReceive').val() : '');
     formData.append('ReceiveName', $('#ReceiveName').val() ? $('#ReceiveName').val() : '');
     formData.append('date_from', $('#date_from').val() ? $('#date_from').val() : '');

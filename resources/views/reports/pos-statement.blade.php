@@ -14,7 +14,7 @@
         @csrf
         <div class="col-md-4">
             <label for="representativeID" class="form-label"> Representative ID </label>
-            <input type="text" class="form-control" id="representativeID" name="representativeID" placeholder="MDR0040">
+            <input type="text" class="form-control" id="representativeID" name="representativeID" placeholder="...">
         </div>
         <div class="col-md-4">
             <label for="representative" class="form-label">Representative Name</label>

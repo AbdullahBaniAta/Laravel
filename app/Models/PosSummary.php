@@ -14,7 +14,10 @@ class PosSummary extends Model
     }
     public static function prepareFilteredQuery($data) : Builder
     {
-        $query = self::select('*');
+        $allColumns = \Schema::getColumnListing('pos_summary');
+        $excludeColumns = ['sum_cost', 'company_earning'];
+        $columns = array_diff($allColumns, $excludeColumns);
+        $query = self::select($columns);
         foreach ($data as $key => $value) {
             if (empty($value)) {
                 continue;

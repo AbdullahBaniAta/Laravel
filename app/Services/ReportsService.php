@@ -31,7 +31,7 @@ class ReportsService
 
     public function viewPosStatement(): array
     {
-        $defaultSelection = ['' => 'Select One'];
+        $defaultSelection = ['' => 'Select All'];
         $repNames = PosStatement::select('representative')->distinct()->pluck('representative')->toArray();
         $categories = PosStatement::select('Category')->distinct()->pluck('Category')->toArray();
         $brands = PosStatement::select('Brand')->distinct()->pluck('Brand')->toArray();
@@ -55,37 +55,57 @@ class ReportsService
         $fileType = $data['file_type'] ?? 'csv';
         $action = $data['action'] ?? null;
         unset($data['file_type'], $data['action'], $data['_token']);
+        
         if (empty($data)) {
-            response()->json();
+            return response()->json();
         }
+    
         [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
-
+    
         $query = PosStatement::prepareFilteredQuery($data);
+    
         if ($action == 'preview') {
             return response()->json($query->limit(20)->get());
         }
-
+    
         $fileName = 'pos-statement-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=UTF-8', // Set charset to UTF-8
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ];
-
+    
         return response()->streamDownload(function () use ($query) {
             $handle = fopen('php://output', 'w');
-            $data  = $query->get();
-            if (!empty($data->first())) {
-                fputcsv($handle, array_keys($data->first()->getAttributes()));
-            }
-            $data->each(function ($row) use ($handle) {
-                fputcsv($handle, $row->getAttributes());
+    
+            // Write the BOM (Byte Order Mark) for UTF-8 to ensure proper encoding
+            fwrite($handle, "\xEF\xBB\xBF");
+    
+            // Write the header row
+            fputcsv($handle, array_map(function ($attribute) {
+                // Convert attribute names to UTF-8 if needed
+                return mb_convert_encoding($attribute, 'UTF-8', 'UTF-8');
+            }, array_keys($query->first()->getAttributes())));
+    
+            // Process the query in chunks
+            $query->chunk(10000, function ($rows) use ($handle) {
+                foreach ($rows as $row) {
+                    // Convert attribute values to UTF-8 if needed
+                    $attributes = array_map(function ($value) {
+                        // Convert Arabic text to UTF-8
+                        return mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                    }, $row->getAttributes());
+    
+                    // Write each data row
+                    fputcsv($handle, $attributes);
+                }
             });
+    
             fclose($handle);
         }, $fileName, $headers);
     }
     public function viewBalanceRequest(): array
     {
-        $defaultSelection = ['' => 'Select One'];
+        $defaultSelection = ['' => 'Select All'];
         $customer_name =BalanceRequest::select('customers_name')->distinct()->pluck('customers_name')->toArray();
         $account_name =BalanceRequest::select('account_name')->distinct()->pluck('account_name')->toArray();
         $sales_representative =BalanceRequest::select('sales_representative')->distinct()->pluck('sales_representative')->toArray();
@@ -101,42 +121,62 @@ class ReportsService
     public function downloadBalanceRequest(Request $request)
     {
 
-        $data = $request->toArray();
+         $data = $request->toArray();
         $fileType = $data['file_type'] ?? 'csv';
         $action = $data['action'] ?? null;
         unset($data['file_type'], $data['action'], $data['_token']);
+        
         if (empty($data)) {
-            response()->json();
+            return response()->json();
         }
+    
         [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
-
+    
         $query = BalanceRequest::prepareFilteredQuery($data);
+    
         if ($action == 'preview') {
             return response()->json($query->limit(20)->get());
         }
-
+    
         $fileName = 'balance-request-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=UTF-8', // Set charset to UTF-8
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ];
-
+    
         return response()->streamDownload(function () use ($query) {
             $handle = fopen('php://output', 'w');
-            $data  = $query->get();
-            if (!empty($data->first())) {
-                fputcsv($handle, array_keys($data->first()->getAttributes()));
-            }
-            $data->each(function ($row) use ($handle) {
-                fputcsv($handle, $row->getAttributes());
+    
+            // Write the BOM (Byte Order Mark) for UTF-8 to ensure proper encoding
+            fwrite($handle, "\xEF\xBB\xBF");
+    
+            // Write the header row
+            fputcsv($handle, array_map(function ($attribute) {
+                // Convert attribute names to UTF-8 if needed
+                return mb_convert_encoding($attribute, 'UTF-8', 'UTF-8');
+            }, array_keys($query->first()->getAttributes())));
+    
+            // Process the query in chunks
+            $query->chunk(10000, function ($rows) use ($handle) {
+                foreach ($rows as $row) {
+                    // Convert attribute values to UTF-8 if needed
+                    $attributes = array_map(function ($value) {
+                        // Convert Arabic text to UTF-8
+                        return mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                    }, $row->getAttributes());
+    
+                    // Write each data row
+                    fputcsv($handle, $attributes);
+                }
             });
+    
             fclose($handle);
         }, $fileName, $headers);
     }
 
     public function viewFinancialTransactions(): array
     {
-        $defaultSelection = ['' => 'Select One'];
+        $defaultSelection = ['' => 'Select All'];
         $senderNames = FinancialTransaction::select('SenderName')->distinct()->pluck('SenderName')->toArray();
         $receiverNames = FinancialTransaction::select('ReceiveName')->distinct()->pluck('ReceiveName')->toArray();
         $senderNames = array_combine($senderNames, $senderNames);
@@ -151,42 +191,62 @@ class ReportsService
 
     public function downloadFinancialTransactions(Request $request)
     {
-        $data = $request->toArray();
-        $fileType = $data['file_type'] ?? 'csv';
-        $action = $data['action'] ?? null;
-        unset($data['file_type'], $data['action'], $data['_token']);
-        if (empty($data)) {
-            response()->json();
-        }
-        [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
-
-        $query = FinancialTransaction::prepareFilteredQuery($data);
-        if ($action == 'preview') {
-            return response()->json($query->limit(20)->get());
-        }
-
-        $fileName = 'financial-transaction-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-        ];
-
-        return response()->streamDownload(function () use ($query) {
-            $handle = fopen('php://output', 'w');
-            $data  = $query->get();
-            if (!empty($data->first())) {
-                fputcsv($handle, array_keys($data->first()->getAttributes()));
+            $data = $request->toArray();
+            $fileType = $data['file_type'] ?? 'csv';
+            $action = $data['action'] ?? null;
+            unset($data['file_type'], $data['action'], $data['_token']);
+            
+            if (empty($data)) {
+                return response()->json();
             }
-            $data->each(function ($row) use ($handle) {
-                fputcsv($handle, $row->getAttributes());
-            });
-            fclose($handle);
-        }, $fileName, $headers);
+        
+            [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null);
+        
+            $query = FinancialTransaction::prepareFilteredQuery($data);
+        
+            if ($action == 'preview') {
+                return response()->json($query->limit(20)->get());
+            }
+        
+            $fileName = 'financial-transaction-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
+            $headers = [
+                'Content-Type' => 'text/csv; charset=UTF-8', // Set charset to UTF-8
+                'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+            ];
+        
+            return response()->streamDownload(function () use ($query) {
+                $handle = fopen('php://output', 'w');
+        
+                // Write the BOM (Byte Order Mark) for UTF-8 to ensure proper encoding
+                fwrite($handle, "\xEF\xBB\xBF");
+        
+                // Write the header row
+                fputcsv($handle, array_map(function ($attribute) {
+                    // Convert attribute names to UTF-8 if needed
+                    return mb_convert_encoding($attribute, 'UTF-8', 'UTF-8');
+                }, array_keys($query->first()->getAttributes())));
+        
+                // Process the query in chunks
+                $query->chunk(10000, function ($rows) use ($handle) {
+                    foreach ($rows as $row) {
+                        // Convert attribute values to UTF-8 if needed
+                        $attributes = array_map(function ($value) {
+                            // Convert Arabic text to UTF-8
+                            return mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                        }, $row->getAttributes());
+        
+                        // Write each data row
+                        fputcsv($handle, $attributes);
+                    }
+                });
+        
+                fclose($handle);
+            }, $fileName, $headers);
     }
 
     public function viewPOSSummary(): array
     {
-        $defaultSelection = ['' => 'Select One'];
+        $defaultSelection = ['' => 'Select All'];
         $pos_name = PosSummary::select('pos_name')->distinct()->pluck('pos_name')->toArray();
         $arabic_name = PosSummary::select('arabic_name')->distinct()->pluck('arabic_name')->toArray();
         $rep_name = PosSummary::select('rep_name')->distinct()->pluck('rep_name')->toArray();
@@ -210,33 +270,50 @@ class ReportsService
         $fileType = $data['file_type'] ?? 'csv';
         $action = $data['action'] ?? null;
         unset($data['file_type'], $data['action'], $data['_token']);
+        
         if (empty($data)) {
-            response()->json();
+            return response()->json();
         }
-
-        [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null,'Y-m-d');
-
+    
+        [$data['date_from'], $data['date_to']] = $this->prepareDate($data['date_from'] ?? null, $data['date_to'] ?? null, 'Y-m-d');
+    
         $query = PosSummary::prepareFilteredQuery($data);
-
+    
         if ($action == 'preview') {
             return response()->json($query->limit(20)->get());
         }
-
+    
         $fileName = 'pos-summary-' . Carbon::now()->format('Y-m-d') . '.' . $fileType;
         $headers = [
-            'Content-Type' => 'text/csv',
+            'Content-Type' => 'text/csv; charset=UTF-8', // Set charset to UTF-8
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ];
-
+    
         return response()->streamDownload(function () use ($query) {
             $handle = fopen('php://output', 'w');
-            $data  = $query->get();
-            if (!empty($data->first())) {
-                fputcsv($handle, array_keys($data->first()->getAttributes()));
-            }
-            $data->each(function ($row) use ($handle) {
-                fputcsv($handle, $row->getAttributes());
+    
+            // Write the BOM (Byte Order Mark) for UTF-8 to ensure proper encoding
+            fwrite($handle, "\xEF\xBB\xBF");
+    
+            // Write the header row
+            fputcsv($handle, array_map(function ($attribute) {
+                // Convert attribute names to UTF-8 if needed
+                return mb_convert_encoding($attribute, 'UTF-8', 'UTF-8');
+            }, array_keys($query->first()->getAttributes())));
+    
+            // Process the query in chunks
+            $query->chunk(10000, function ($rows) use ($handle) {
+                foreach ($rows as $row) {
+                    // Convert attribute values to UTF-8 if needed
+                    $attributes = array_map(function ($value) {
+                        return mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                    }, $row->getAttributes());
+    
+                    // Write each data row
+                    fputcsv($handle, $attributes);
+                }
             });
+    
             fclose($handle);
         }, $fileName, $headers);
     }

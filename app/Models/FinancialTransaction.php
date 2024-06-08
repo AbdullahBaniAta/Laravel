@@ -30,6 +30,9 @@ class FinancialTransaction extends Model
                     $op = $key == 'date_from' ? '>=' : '<=';
                     $query->where('DateTime', $op, $value);
                     break;
+                case 'SenderType':
+                    $query->whereRaw('LOWER(SenderID) like ?', strtolower($value) . '%');
+                    break;
                 default:
                     $query->where($key, $value);
             }

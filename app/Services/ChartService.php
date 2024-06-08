@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\DB;
 class ChartService
 {
     private array $date;
+    private ?string $rg;
 
-    public function __construct($dateFrom = '', $dateTo = '')
+    public function __construct($dateFrom = '', $dateTo = '', $rg = '')
     {
         $this->date = DateHelper::normalizeDate($dateFrom, $dateTo);
+        $this->rg = $rg;
     }
 
     public function posStatementCharts(): array
@@ -46,15 +48,22 @@ class ChartService
         $config = config($configFile);
         $charts = [];
         foreach ($config as $item) {
-            $res = $model::select(DB::raw($item['cols'][0]), DB::raw($item['cols'][1]))
+            $query = $model::select(DB::raw($item['cols'][0]), DB::raw($item['cols'][1]))
                 ->groupBy($item['groupBy'])
                 ->date($this->date)
-                ->orderBy($item['orderBy'], $item['orderType'])
-                ->get();
-
+                ->orderBy($item['orderBy'], $item['orderType']);
+            if ($this->rg && $model == PosSummary::class) {
+                $query->where('region', $this->rg);
+            }
+            if ($model == FinancialTransaction::class) {
+                $query->where(DB::raw('LOWER(SenderID)'), 'not like', 'cna%')
+                    ->where(DB::raw('LOWER(SenderID)'), 'not like', 'mda%');
+            }
+            $res = $query->get();
 
             $data = $res->pluck($item['cols'][0])->toArray();
             $labels = $res->pluck($item['cols'][1])->toArray();
+            $totalRes = array_sum($data);
             if ($item['total_res']??false) {
                 $totalRes = array_sum($data);
                 $totalResLabel = $item['total_res_label'] ?? 'Total Result';
@@ -69,6 +78,7 @@ class ChartService
                 'label' => $item['label'],
                 'is_horizontal' => $item['is_horizontal'] ?? false,
                 'size' => $item['size'] ?? 'col-md-10',
+                'total' => $totalRes,
             ];
         }
         return $charts;
